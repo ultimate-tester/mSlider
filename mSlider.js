@@ -9,6 +9,7 @@
         }, options);
 
         var playing = true;
+        var canSlide = true;
         var slider = $(this);
         var sliderWrapper = $(this).wrapInner('<div class="mSlider-wrapper" />').children().first();
         var slides = sliderWrapper.find('.mSlider-slide');
@@ -40,6 +41,11 @@
         };
 
         slider.nextSlide = function () {
+            if (canSlide == false) {
+                return false;
+            }
+
+            canSlide = false;
             slides.each(function (indexInArray, value) {
                 var slideWidth = $(value).outerWidth(true);
                 var leftOffset = parseFloat($(value).css('left'));
@@ -47,11 +53,18 @@
                     $(value).css('left', sliderWrapperWidth - slideWidth);
                 }
 
-                $(value).animate({left: '-=' + slideWidth}, 'slow');
+                $(value).animate({left: '-=' + slideWidth}, 'slow', function () {
+                    canSlide = true;
+                });
             });
         };
 
         slider.prevSlide = function () {
+            if (canSlide == false) {
+                return false;
+            }
+
+            canSlide = false;
             slides.each(function (indexInArray, value) {
                 var slideWidth = $(value).outerWidth(true);
                 var leftOffset = parseFloat($(value).css('left'));
@@ -59,7 +72,9 @@
                     $(value).css('left', -slideWidth);
                 }
 
-                $(value).animate({left: '+=' + slideWidth}, 'slow');
+                $(value).animate({left: '+=' + slideWidth}, 'slow', function () {
+                    canSlide = true;
+                });
             });
         };
 
