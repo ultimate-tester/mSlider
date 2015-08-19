@@ -1,6 +1,7 @@
 (function ($) {
     $.fn.mslider = function (options) {
         var settings = $.extend({
+            autoSlide: true,
             slideDelay: 3000,
             showControls: true,
             freezeOnBlur: false,
@@ -81,7 +82,7 @@
         slider.reset();
 
         function slideIntervalFunction() {
-            if (playing == true) {
+            if (playing == true && settings.autoSlide) {
                 slider.nextSlide();
             }
         }
